@@ -1,0 +1,4 @@
+**/*.vscode/*
+**/*.idea/*
+cypress/parallel-tests/node_modules/**/*
+java/target/**/*
