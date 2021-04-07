@@ -4,12 +4,14 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.rules.TestName;
+import org.junit.rules.TestWatcher;
+import org.junit.runner.Description;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 
 public class TestCase {
 
-    public WebDriver driver;
+    protected WebDriver driver;
 
     @Rule
     public TestName testName = new TestName() {
@@ -21,14 +23,6 @@ public class TestCase {
     @Rule
     public SauceTestWatcher sauceTestWatcher = new SauceTestWatcher();
 
-    public WebDriver getDriver() {
-        return driver;
-    }
-
-    public JavascriptExecutor getJSExecutor() {
-        return (JavascriptExecutor) getDriver();
-    }
-
     @Before
     public void setUp() {
         SauceOptions sauceOptions = new SauceOptions();
@@ -39,12 +33,26 @@ public class TestCase {
 
         SauceSession session = new SauceSession(sauceOptions);
         driver = session.start();
-        sauceTestWatcher.setDriver(driver);
     }
 
-    @After
-    public void tearDown() {
-        driver.quit();
+    public class SauceTestWatcher extends TestWatcher {
+        @Override
+        protected void succeeded(Description description) {
+            if (driver != null) {
+                ((JavascriptExecutor) driver).executeScript("sauce:job-result=passed");
+                driver.quit();
+            }
+            super.succeeded(description);
+        }
+
+        @Override
+        protected void failed(Throwable e, Description description) {
+            if (driver != null) {
+                ((JavascriptExecutor) driver).executeScript("sauce:job-result=failed");
+                driver.quit();
+            }
+            super.failed(e, description);
+        }
     }
 
 }
