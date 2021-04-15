@@ -1,18 +1,17 @@
-# kotlin
+# Sauce Day Wayfair - Kotlin Examples
 
-UI Test example in Kotlin language
+Here are some examples used to demo how to run web-based tests on Sauce Labs using Kotlin. 
+
+These examples use
+
+- IntelliJ and its bundled Kotlin,
+- Gradle,
+- Junit 5, and
+- Selenium Webdriver
 
 ## Run tests
-To run tests, just type in command line:
-> ./gradlew test
+To run tests, you can use IntelliJ to select tests from IntelliJ which are located in `src/test/kotlin` run all tests from commandline using Gradle
 
-## Import IDEA project
-Once gradle has downloaded dependencies, go to IDEA -> File -> Open -> "YOUR_PROJECTS/kotlin"
-
-# Send feedback!
-Try to create your own test examples with Kotlin!
-
-Feel free to send pull request.
-
-
-[![Build Status](https://travis-ci.org/selenide-examples/kotlin.png)](https://travis-ci.org/selenide-examples/kotlin)
+```$bash
+./gradlew test
+```
